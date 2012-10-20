@@ -80,7 +80,7 @@ function AB:PositionAndSizeBarShapeShift()
 	bar.mouseover = self.db['stanceBar'].mouseover
 	if self.db['stanceBar'].enabled then
 		bar:SetScale(1);
-		bar:SetAlpha(1);
+		bar:SetAlpha(bar.db.alpha);
 	else
 		bar:SetScale(0.000001);
 		bar:SetAlpha(0);
@@ -129,7 +129,7 @@ function AB:PositionAndSizeBarShapeShift()
 				self:HookScript(button, 'OnLeave', 'Button_OnLeave');					
 			end
 		else
-			bar:SetAlpha(1);
+			bar:SetAlpha(bar.db.alpha);
 			if self.hooks[bar] then
 				self:Unhook(bar, 'OnEnter');
 				self:Unhook(bar, 'OnLeave');
@@ -182,7 +182,7 @@ function AB:PositionAndSizeBarShapeShift()
 			button:SetAlpha(0);
 		else
 			button:SetScale(1);
-			button:SetAlpha(1);
+			button:SetAlpha(bar.db.alpha);
 		end
 		
 		self:StyleButton(button);
@@ -196,12 +196,13 @@ function AB:AdjustMaxStanceButtons(event)
 	for i=1, #bar.buttons do
 		bar.buttons[i]:Hide()
 	end
-
+	local initialCreate = false;
 	local numButtons = GetNumShapeshiftForms()
 	for i = 1, NUM_STANCE_SLOTS do
 		if not bar.buttons[i] then
 			bar.buttons[i] = CreateFrame("CheckButton", format(bar:GetName().."Button%d", i), bar, "StanceButtonTemplate")
 			bar.buttons[i]:SetID(i)
+			initialCreate = true;
 		end
 
 		if ( i <= numButtons ) then
@@ -218,13 +219,15 @@ function AB:AdjustMaxStanceButtons(event)
 		self:StyleShapeShift()
 	end			
 	
-	if numButtons == 0 then
-		UnregisterStateDriver(bar, "show");	
-		bar:Hide()
-	else
-		bar:Show()
-		RegisterStateDriver(bar, "show", '[petbattle] hide;show');	
-	end	
+	if not C_PetBattles.IsInBattle() or initialCreate then
+		if numButtons == 0 then
+			UnregisterStateDriver(bar, "show");	
+			bar:Hide()
+		else
+			bar:Show()
+			RegisterStateDriver(bar, "show", '[petbattle] hide;show');	
+		end	
+	end
 end
 
 function AB:CreateBarShapeShift()

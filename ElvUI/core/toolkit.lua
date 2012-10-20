@@ -49,9 +49,8 @@ local function Point(obj, arg1, arg2, arg3, arg4, arg5)
 end
 
 local function SetOutside(obj, anchor, xOffset, yOffset)
-	local default = E.private.general.pixelExtreme and E.mult or 2
-	xOffset = xOffset or default
-	yOffset = yOffset or default
+	xOffset = xOffset or E.Border
+	yOffset = yOffset or E.Border
 	anchor = anchor or obj:GetParent()
 	
 	if obj:GetPoint() then
@@ -63,10 +62,8 @@ local function SetOutside(obj, anchor, xOffset, yOffset)
 end
 
 local function SetInside(obj, anchor, xOffset, yOffset)
-	
-	local default = E.private.general.pixelExtreme and E.mult or 2
-	xOffset = xOffset or default
-	yOffset = yOffset or default
+	xOffset = xOffset or E.Border
+	yOffset = yOffset or E.Border
 	anchor = anchor or obj:GetParent()
 	
 	if obj:GetPoint() then

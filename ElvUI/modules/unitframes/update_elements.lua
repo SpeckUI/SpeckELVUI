@@ -228,7 +228,7 @@ function UF:PostUpdateAura(unit, button, index, offset, filter, isDebuff, durati
 	
 	if button.isDebuff then
 		if(not UnitIsFriend("player", unit) and button.owner ~= "player" and button.owner ~= "vehicle") --[[and (not E.isDebuffWhiteList[name])]] then
-			button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			button:SetBackdropBorderColor(0.9, 0.1, 0.1)
 			if unit and not unit:find('arena%d') then
 				button.icon:SetDesaturated(true)
 			else
@@ -511,7 +511,7 @@ end
 function UF:UpdateHoly(event, unit, powerType)
 	if(self.unit ~= unit or (powerType and powerType ~= 'HOLY_POWER')) then return end
 	local db = self.db
-	
+	if not db then return; end
 	local BORDER = 2
 	local numHolyPower = UnitPower('player', SPELL_POWER_HOLY_POWER);
 	local maxHolyPower = UnitPowerMax('player', SPELL_POWER_HOLY_POWER);	
@@ -526,7 +526,7 @@ function UF:UpdateHoly(event, unit, powerType)
 		PORTRAIT_WIDTH = 0		
 	end	
 	
-	local CLASSBAR_WIDTH = db.width - 4
+	local CLASSBAR_WIDTH = db.width - (E.Border * 2)
 	if USE_PORTRAIT then
 		CLASSBAR_WIDTH = math.ceil((db.width - (BORDER*2)) - PORTRAIT_WIDTH)
 	end
@@ -548,7 +548,7 @@ function UF:UpdateHoly(event, unit, powerType)
 			self.HolyPower[i]:SetAlpha(.2)
 		end
 		
-		self.HolyPower[i]:SetWidth(E:Scale(self.HolyPower:GetWidth() - 2)/maxHolyPower)	
+		self.HolyPower[i]:SetWidth(E:Scale(self.HolyPower:GetWidth() - (E.PixelMode and 4 or 2))/maxHolyPower)	
 		self.HolyPower[i]:ClearAllPoints()
 		if i == 1 then
 			self.HolyPower[i]:SetPoint("LEFT", self.HolyPower)
@@ -888,8 +888,8 @@ function UF:UpdateComboDisplay(event, unit)
 		end	
 	end
 	
-	local BORDER = E:Scale(2)
-	local SPACING = E:Scale(1)
+	local BORDER = E.Border;
+	local SPACING = E.Spacing;
 	local db = E.db['unitframe']['units'].target
 	local USE_COMBOBAR = db.combobar.enable
 	local USE_MINI_COMBOBAR = db.combobar.fill == "spaced" and USE_COMBOBAR
@@ -1036,6 +1036,13 @@ function UF:UpdateAuraWatch(frame)
 	local buffs = {};
 	local auras = frame.AuraWatch;
 	local db = frame.db.buffIndicator;
+
+	if not db.enable then
+		auras:Hide()
+		return;
+	else
+		auras:Show()
+	end
 	
 	if not E.global['unitframe'].buffwatch[E.myclass] then E.global['unitframe'].buffwatch[E.myclass] = {} end
 
@@ -1047,6 +1054,25 @@ function UF:UpdateAuraWatch(frame)
 		for _, value in pairs(E.global['unitframe'].buffwatch[E.myclass]) do
 			tinsert(buffs, value);
 		end	
+	end
+	
+	--CLEAR CACHE
+	if auras.icons then
+		for spell in pairs(auras.icons) do
+			local matchFound = false;
+			for _, spell2 in pairs(buffs) do
+				if spell2["id"] then
+					if spell2["id"] == spell then
+						matchFound = true;
+					end
+				end
+			end
+			
+			if not matchFound then
+				auras.icons[spell]:Hide()
+				auras.icons[spell] = nil;
+			end
+		end
 	end
 	
 	for _, spell in pairs(buffs) do
@@ -1090,6 +1116,7 @@ function UF:UpdateAuraWatch(frame)
 						icon.icon:SetVertexColor(0.8, 0.8, 0.8);
 					end			
 				else
+					icon.icon:SetVertexColor(1, 1, 1)
 					icon.icon:SetTexCoord(.18, .82, .18, .82);
 					icon.icon:SetTexture(icon.image);
 				end
@@ -1135,7 +1162,7 @@ function UF:UpdateAuraWatch(frame)
 	if frame.AuraWatch.Update then
 		frame.AuraWatch.Update(frame)
 	end
-	
+		
 	buffs = nil;
 end
 
@@ -1349,6 +1376,15 @@ function UF:SmartAuraDisplay()
 		end
 	end
 	
+	local yOffset = 0;
+	if E.PixelMode then
+		if db.aurabar.anchorPoint == 'BELOW' then
+			yOffset = 1;
+		else
+			yOffset = -1;
+		end
+	end		
+	
 	if buffs:IsShown() then
 		local x, y = E:GetXYOffset(db.buffs.anchorPoint)
 		
@@ -1360,8 +1396,8 @@ function UF:SmartAuraDisplay()
 			anchorPoint, anchorTo = 'TOP', 'BOTTOM'
 		end		
 		auraBars:ClearAllPoints()
-		auraBars:SetPoint(anchorPoint..'LEFT', buffs, anchorTo..'LEFT', 0, 0)
-		auraBars:SetPoint(anchorPoint..'RIGHT', buffs, anchorTo..'RIGHT')
+		auraBars:SetPoint(anchorPoint..'LEFT', buffs, anchorTo..'LEFT', 0, yOffset)
+		auraBars:SetPoint(anchorPoint..'RIGHT', buffs, anchorTo..'RIGHT', 0, yOffset)
 	end
 	
 	if debuffs:IsShown() then
@@ -1375,7 +1411,7 @@ function UF:SmartAuraDisplay()
 			anchorPoint, anchorTo = 'TOP', 'BOTTOM'
 		end		
 		auraBars:ClearAllPoints()
-		auraBars:SetPoint(anchorPoint..'LEFT', debuffs, anchorTo..'LEFT', 0, 0)
-		auraBars:SetPoint(anchorPoint..'RIGHT', debuffs, anchorTo..'RIGHT')		
+		auraBars:SetPoint(anchorPoint..'LEFT', debuffs, anchorTo..'LEFT', 0, yOffset)
+		auraBars:SetPoint(anchorPoint..'RIGHT', debuffs, anchorTo..'RIGHT', 0, yOffset)		
 	end
 end

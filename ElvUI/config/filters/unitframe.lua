@@ -412,6 +412,8 @@ G.unitframe.aurafilters['Whitelist'] = {
 	['spells'] = {
 		[SpellName(2825)] = Defaults(), -- Bloodlust
 		[SpellName(32182)] = Defaults(), -- Heroism	
+		[SpellName(80353)] = Defaults(), --Time Warp
+		[SpellName(90355)] = Defaults(), --Ancient Hysteria		
 	},
 }
 
@@ -644,6 +646,7 @@ G.unitframe.buffwatch = {
 		ClassBuff(41635, "BOTTOMRIGHT", {0.2, 0.7, 0.2}),	 -- Prayer of Mending
 		ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Renew
 		ClassBuff(17, "TOPLEFT", {0.81, 0.85, 0.1}, true),	 -- Power Word: Shield
+		ClassBuff(123258, "TOPLEFT", {0.81, 0.85, 0.1}, true),	 -- Power Word: Shield Power Insight
 		ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Power Infusion
 		ClassBuff(47788, "LEFT", {221/255, 117/255, 0}, true), -- Guardian Spirit
 		ClassBuff(33206, "LEFT", {227/255, 23/255, 13/255}, true), -- Pain Suppression		
@@ -670,7 +673,7 @@ G.unitframe.buffwatch = {
 	MONK = {
 		ClassBuff(119611, "TOPLEFT", {0.8, 0.4, 0.8}),	 --Renewing Mist
 		ClassBuff(116849, "TOPRIGHT", {0.2, 0.8, 0.2}),	 -- Life Cocoon
-		ClassBuff(124682, "BOTTOMLEFT", {0.4, 0.8, 0.2}), -- Enveloping Mist
+		ClassBuff(132120, "BOTTOMLEFT", {0.4, 0.8, 0.2}), -- Enveloping Mist
 		ClassBuff(124081, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Zen Sphere
 	},
 	ROGUE = {
@@ -736,8 +739,8 @@ G.unitframe.AuraBarColors = {
 	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},	--Bloodlust
 	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255}, --Heroism
 	[SpellName(80353)] = {r = 250/255, g = 146/255, b = 27/255}, --Time Warp
+	[SpellName(90355)] = {r = 250/255, g = 146/255, b = 27/255}, --Ancient Hysteria
 	[SpellName(84963)] = {r = 250/255, g = 146/255, b = 27/255}, --Inquisition
-	[SpellName(86698)] = {r = 250/255, g = 146/255, b = 27/255}, --Guardian of the Ancients
 }
 
 G.unitframe.InvalidSpells = {

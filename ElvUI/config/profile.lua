@@ -14,6 +14,7 @@ P['general'] = {
 	['autoRoll'] = false,
 	['vendorGrays'] = false,
 	['autoAcceptInvite'] = false,
+	['bottomPanel'] = false,
 
 	["fontSize"] = 12,
 	["font"] = "ElvUI Font",
@@ -22,7 +23,7 @@ P['general'] = {
 	["backdropcolor"] = { r = 0.1,g = 0.1,b = 0.1 },
 	["backdropfadecolor"] = { r = .054,g = .054,b = .054, a = 0.8 },
 	["valuecolor"] = {r = 23/255,g = 132/255,b = 209/255},
-
+	
 	['mapAlpha'] = 1,
 	['tinyWorldMap'] = true,
 	
@@ -204,6 +205,8 @@ P['tooltip'] = {
 	['titles'] = true,
 	['guildranks'] = true,
 	['talentSpec'] = true,
+	['count'] = true,
+	['spellid'] = true,
 }
 
 --UnitFrame
@@ -376,6 +379,13 @@ P['unitframe'] = {
 				['friendlyAuraType'] = 'HELPFUL',
 				['enemyAuraType'] = 'HARMFUL'
 			},
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},
 		},	
 		['target'] = {
 			['enable'] = true,
@@ -468,6 +478,13 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['friendlyAuraType'] = 'HELPFUL',
 				['enemyAuraType'] = 'HARMFUL'				
+			},	
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
 			},			
 		},
 		['targettarget'] = {
@@ -525,6 +542,13 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+			},	
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
 			},			
 		},
 		['focus'] = {
@@ -606,7 +630,14 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['friendlyAuraType'] = 'HELPFUL',
 				['enemyAuraType'] = 'HARMFUL'				
-			},				
+			},	
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},			
 		},	
 		['focustarget'] = {
 			['enable'] = false,
@@ -663,6 +694,13 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+			},
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
 			},			
 		},				
 		['pet'] = {
@@ -823,7 +861,7 @@ P['unitframe'] = {
 				['anchorPoint'] = 'LEFT',					
 				['fontSize'] = 10,
 				['clickThrough'] = false,
-				['playerOnly'] = true,
+				['playerOnly'] = false,
 				['noConsolidated'] = false,
 				['useBlacklist'] = true,
 				['useWhitelist'] = false,
@@ -831,15 +869,15 @@ P['unitframe'] = {
 				['onlyDispellable'] = false,
 				['useFilter'] = '',
 				['xOffset'] = 0,
-				['yOffset'] = 0,
-				['sizeOverride'] = 46,
+				['yOffset'] = 11,
+				['sizeOverride'] = 22,
 			},
 			['debuffs'] = {
 				['enable'] = true,
-				['perrow'] = 1,
-				['numrows'] = 1,
+				['perrow'] = 3,
+				['numrows'] = 2,
 				['attachTo'] = 'FRAME',
-				['anchorPoint'] = 'RIGHT',					
+				['anchorPoint'] = 'LEFT',					
 				['fontSize'] = 10,
 				['clickThrough'] = false,
 				['playerOnly'] = true,
@@ -849,8 +887,8 @@ P['unitframe'] = {
 				['onlyDispellable'] = false,
 				['useFilter'] = '',
 				['xOffset'] = 0,
-				['yOffset'] = 0,
-				['sizeOverride'] = 46,
+				['yOffset'] = -11,
+				['sizeOverride'] = 22,
 			},	
 			['castbar'] = {
 				['enable'] = true,
@@ -859,7 +897,14 @@ P['unitframe'] = {
 				['icon'] = true,
 				['format'] = 'REMAINING',
 				['spark'] = true,
-			},					
+			},		
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},			
 		},	
 		['arena'] = {
 			['enable'] = true,
@@ -1039,7 +1084,14 @@ P['unitframe'] = {
 				['anchorPoint'] = 'TOPLEFT',
 				['xOffset'] = -1,
 				['yOffset'] = 0,
-			},				
+			},		
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},			
 		},
 		['raid10'] = {
 			['enable'] = true,
@@ -1131,7 +1183,14 @@ P['unitframe'] = {
 			['raidRoleIcons'] = {
 				['enable'] = true,
 				['position'] = 'TOPLEFT',
-			},				
+			},	
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},			
 		},			
 		['raid25'] = {
 			['enable'] = true,
@@ -1223,7 +1282,14 @@ P['unitframe'] = {
 			['raidRoleIcons'] = {
 				['enable'] = true,
 				['position'] = 'TOPLEFT',
-			},				
+			},	
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},			
 		},					
 		['raid40'] = {
 			['enable'] = true,
@@ -1315,7 +1381,14 @@ P['unitframe'] = {
 				['size'] = 8,
 				['fontSize'] = 10,
 				['colorIcons'] = true,
-			},		
+			},	
+			['raidicon'] = {
+				['enable'] = true,
+				['size'] = 18,
+				['attachTo'] = 'TOP',
+				['xOffset'] = 0,
+				['yOffset'] = 10,
+			},			
 		},	
 		['tank'] = {
 			['enable'] = true,
@@ -1386,6 +1459,7 @@ P["actionbar"] = {
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
 		["buttonspacing"] = 4,		
+		['alpha'] = 1,
 		['paging'] = {
 			["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
 			["PRIEST"] = "[bonusbar:1] 7;",
@@ -1404,7 +1478,8 @@ P["actionbar"] = {
 		['heightMult'] = 1,
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
-		["buttonspacing"] = 4,		
+		["buttonspacing"] = 4,	
+		['alpha'] = 1,
 		['paging'] = {},
 		['visibility'] = "[vehicleui] hide; [overridebar] hide; [petbattle] hide; show",
 	},
@@ -1419,6 +1494,7 @@ P["actionbar"] = {
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
 		["buttonspacing"] = 4,
+		['alpha'] = 1,
 		['paging'] = {},
 		['visibility'] = "[vehicleui] hide; [overridebar] hide; [petbattle] hide; show",
 	},
@@ -1433,6 +1509,7 @@ P["actionbar"] = {
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
 		["buttonspacing"] = 4,
+		['alpha'] = 1,
 		['paging'] = {},
 		['visibility'] = "[vehicleui] hide; [overridebar] hide; [petbattle] hide; show",
 	},
@@ -1447,6 +1524,7 @@ P["actionbar"] = {
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
 		["buttonspacing"] = 4,
+		['alpha'] = 1,
 		['paging'] = {},
 		['visibility'] = "[vehicleui] hide; [overridebar] hide; [petbattle] hide; show",
 	},
@@ -1461,6 +1539,7 @@ P["actionbar"] = {
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
 		["buttonspacing"] = 4,
+		['alpha'] = 1,
 		['visibility'] = "[petbattle] hide;[pet,novehicleui,nooverridebar,nopossessbar] show;hide",
 	},
 	['stanceBar'] = {
@@ -1474,5 +1553,6 @@ P["actionbar"] = {
 		['widthMult'] = 1,
 		["buttonsize"] = 30,
 		["buttonspacing"] = 4,
+		['alpha'] = 1,
 	},
 };

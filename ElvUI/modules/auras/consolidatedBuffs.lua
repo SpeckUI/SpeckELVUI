@@ -54,6 +54,7 @@ A.CriticalStrike = {
 	[126309] = 'HUNTER', -- Still Water
 	[24604] = 'HUNTER', -- Furious Howl
 	[90309] = 'HUNTER', -- Terrifying Roar
+	[126373] = 'HUNTER', -- Fearless Roar
 	[1459] = 'MAGE', -- Arcane Brilliance
 	[61316] = 'MAGE', -- Dalaran Brilliance
 	[24932] = 'DRUID', -- Leader of The Pact
@@ -182,6 +183,8 @@ function A:UpdateReminder(event, unit)
 			if (duration == 0 and expirationTime == 0) or E.db.auras.consolidatedBuffs.durations ~= true then
 				frame['spell'..i].t:SetAlpha(0.3)
 				frame['spell'..i]:SetScript('OnUpdate', nil)
+				frame['spell'..i].timer:SetText(nil)
+				CooldownFrame_SetTimer(frame['spell'..i].cd, 0, 0, 0)
 			else
 				CooldownFrame_SetTimer(frame['spell'..i].cd, expirationTime - duration, duration, 1)
 				frame['spell'..i].t:SetAlpha(1)
@@ -193,6 +196,7 @@ function A:UpdateReminder(event, unit)
 			frame['spell'..i].hasBuff = nil
 			frame['spell'..i].t:SetAlpha(1)
 			frame['spell'..i]:SetScript('OnUpdate', nil)
+			frame['spell'..i].timer:SetText(nil)
 		end
 	end
 end
@@ -316,16 +320,16 @@ function A:Update_ConsolidatedBuffsSettings()
 		
 		frame['spell'..i].t:SetAlpha(1)
 		frame['spell'..i]:ClearAllPoints()
-		frame['spell'..i]:Size(E.ConsolidatedBuffsWidth - 4)
+		frame['spell'..i]:Size(E.ConsolidatedBuffsWidth - (E.PixelMode and 1 or 4)) -- 4 needs to be 1
 		
 		if i == 1 then
-			frame['spell'..i]:Point("TOP", ElvUI_ConsolidatedBuffs, "TOP", 0, -2)
+			frame['spell'..i]:Point("TOP", ElvUI_ConsolidatedBuffs, "TOP", 0, -(E.PixelMode and 0 or 2)) -- -2 needs to be 0
 		else
-			frame['spell'..i]:Point("TOP", frame['spell'..i - 1], "BOTTOM", 0, -1)
+			frame['spell'..i]:Point("TOP", frame['spell'..i - 1], "BOTTOM", 0, (E.PixelMode and 1 or -1)) -- -1 needs to be 1
 		end
 
 		if i == 6 and E.db.auras.consolidatedBuffs.filter or i == 8 then
-			frame['spell'..i]:Point("BOTTOM", ElvUI_ConsolidatedBuffs, "BOTTOM", 0, 2)
+			frame['spell'..i]:Point("BOTTOM", ElvUI_ConsolidatedBuffs, "BOTTOM", 0, (E.PixelMode and 0 or 2)) --2 needs to be 0
 		end
 		
 		if E.db.auras.consolidatedBuffs.filter and i > 6 then
@@ -364,8 +368,8 @@ function A:Construct_ConsolidatedBuffs()
 	local frame = CreateFrame('Frame', 'ElvUI_ConsolidatedBuffs', Minimap)
 	frame:SetTemplate('Default')
 	frame:Width(E.ConsolidatedBuffsWidth)
-	frame:Point('TOPLEFT', Minimap.backdrop, 'TOPRIGHT', 1, 0)
-	frame:Point('BOTTOMLEFT', Minimap.backdrop, 'BOTTOMRIGHT', 1, 0)
+	frame:Point('TOPLEFT', Minimap.backdrop, 'TOPRIGHT', (E.PixelMode and -1 or 1), 0)
+	frame:Point('BOTTOMLEFT', Minimap.backdrop, 'BOTTOMRIGHT', (E.PixelMode and -1 or 1), 0)
 	self.frame = frame
 	
 	for i=1, NUM_LE_RAID_BUFF_TYPES do
